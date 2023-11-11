@@ -11,7 +11,7 @@
 
     <script>
         function getData() {
-            fetch('URL_ВАШЕГО_APPS_SCRIPT')
+            fetch('https://docs.google.com/spreadsheets/d/1iZcHExHlnPBQkd7d-_E6h4_69QVaXZww2sn4bYPKfTk/edit?usp=sharing')
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('output').innerHTML = JSON.stringify(data);
