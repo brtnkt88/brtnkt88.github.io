@@ -1,7 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sheets App</title>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+    <button onclick="getData()">Получить данные из Google Таблицы</button>
+    <div id="output"></div>
+
+    <script>
+        function getData() {
+            fetch('URL_ВАШЕГО_APPS_SCRIPT')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('output').innerHTML = JSON.stringify(data);
+                })
+                .catch(error => console.error('Ошибка:', error));
+        }
+    </script>
 </body>
 </html>
