@@ -4,23 +4,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Моя таблица</title>
-	<a href="index.html">Перейти на остатки</a>
+    <title>Ellips</title>
+    <a href="index.html">Перейти на остатки</a>
 </head>
 <body>
-    <h1>Моя таблица</h1>
-    <table border="1">
+    <h1>Ellips</h1>
+    <button id="refreshButton">Обновить остатки</button>
+    <table border="1" id="ellipsTable">
         <tr>
             <th>ID</th>
             <th>SKU</th>
             <th>Название</th>
-        </tr>
-        <tr>
-            <td>1519356445</td>
-            <td>Значение 2</td>
-            <td>Капсули для волосся Ellips з про-кератином "Бездоганний шовк" Жовті Банка</td>
+            <th>Остаток срм</th>
         </tr>
         <!-- Добавьте другие строки и ячейки, как нужно -->
     </table>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Функция для обновления данных на странице ellips
+            function refreshData() {
+                // Получаем сохраненные данные из локального хранилища
+                var sixthColumnData = JSON.parse(localStorage.getItem("sixthColumnData")) || [];
+
+                // Очищаем таблицу
+                $("#ellipsTable").empty();
+
+                // Добавляем заголовки
+                $("#ellipsTable").append('<tr><th>ID</th><th>SKU</th><th>Название</th><th>Остаток срм</th></tr>');
+
+                // Добавляем данные из локального хранилища
+                for (var i = 0; i < sixthColumnData.length; i++) {
+                    var rowData = sixthColumnData[i];
+                    $("#ellipsTable").append('<tr><td>' + rowData.id + '</td><td>' + rowData.value + '</td></tr>');
+                }
+            }
+
+            // Обработчик нажатия на кнопку "Обновить остатки"
+            $("#refreshButton").click(function () {
+                // Вызываем функцию обновления данных
+                refreshData();
+            });
+
+            // Вызываем функцию обновления данных при загрузке страницы
+            refreshData();
+        });
+    </script>
 </body>
 </html>
