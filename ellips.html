@@ -5,17 +5,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ellips</title>
-    <a href="index.html">Перейти на остатки</a>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
     <h1>Ellips</h1>
     <button id="refreshButton">Обновить остатки</button>
-    <table border="1" id="ellipsTable">
+    <button id="goToIndexButton">Перейти на страницу Index</button>
+    <table border="1">
         <tr>
             <th>ID</th>
             <th>SKU</th>
             <th>Название</th>
             <th>Остаток срм</th>
+        </tr>
+        <tr>
+            <td>1519356445</td>
+            <td>SKU значение</td>
+            <td>Название товара</td>
+            <td id="ostatokCell">Значение остатка</td>
+        </tr>
+        <tr>
+            <td>1740216986</td>
+            <td>SKU значение</td>
+            <td>Название товара</td>
+            <td id="ostatokCell2">Значение остатка</td>
+        </tr>
+        <tr>
+            <td>1498676950</td>
+            <td>SKU значение</td>
+            <td>Название товара</td>
+            <td id="ostatokCell3">Значение остатка</td>
         </tr>
         <!-- Добавьте другие строки и ячейки, как нужно -->
     </table>
@@ -23,32 +53,55 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function () {
-            // Функция для обновления данных на странице ellips
-            function refreshData() {
-                // Получаем сохраненные данные из локального хранилища
-                var sixthColumnData = JSON.parse(localStorage.getItem("sixthColumnData")) || [];
-
-                // Очищаем таблицу
-                $("#ellipsTable").empty();
-
-                // Добавляем заголовки
-                $("#ellipsTable").append('<tr><th>ID</th><th>SKU</th><th>Название</th><th>Остаток срм</th></tr>');
-
-                // Добавляем данные из локального хранилища
-                for (var i = 0; i < sixthColumnData.length; i++) {
-                    var rowData = sixthColumnData[i];
-                    $("#ellipsTable").append('<tr><td>' + rowData.id + '</td><td>' + rowData.value + '</td></tr>');
-                }
-            }
-
-            // Обработчик нажатия на кнопку "Обновить остатки"
             $("#refreshButton").click(function () {
-                // Вызываем функцию обновления данных
-                refreshData();
+                refreshOstakokData();
             });
 
-            // Вызываем функцию обновления данных при загрузке страницы
-            refreshData();
+            $("#goToIndexButton").click(function () {
+                window.location.href = "index.html";
+            });
+
+            function refreshOstakokData() {
+                // Получаем сохраненные данные из локального хранилища
+                var excelTableData = JSON.parse(localStorage.getItem("excelTableData")) || [];
+
+                // Получаем значение ID для поиска
+                var targetId1 = "1519356445"; // Здесь укажите нужное значение ID
+                var targetId2 = "1740216986";
+                var targetId3 = "1498676950";
+
+                // Ищем соответствующую строку в данных из index.html
+                var targetRow1 = excelTableData.find(function (row) {
+                    return row[0] == targetId1;
+                });
+
+                var targetRow2 = excelTableData.find(function (row) {
+                    return row[0] == targetId2;
+                });
+
+                var targetRow3 = excelTableData.find(function (row) {
+                    return row[0] == targetId3;
+                });
+
+                // Обновляем значение в столбцах "Остаток срм" на странице ellips.html
+                if (targetRow1) {
+                    $("#ostatokCell").text(targetRow1[5]); // Предполагаем, что остаток находится в четвертом столбце
+                } else {
+                    $("#ostatokCell").text("ID не найден");
+                }
+
+                if (targetRow2) {
+                    $("#ostatokCell2").text(targetRow2[5]);
+                } else {
+                    $("#ostatokCell2").text("ID не найден");
+                }
+
+                if (targetRow3) {
+                    $("#ostatokCell3").text(targetRow3[5]);
+                } else {
+                    $("#ostatokCell3").text("ID не найден");
+                }
+            }
         });
     </script>
 </body>
