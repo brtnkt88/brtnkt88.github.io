@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная страница</title>
+    <title>Остатки СРМ</title>
 </head>
 <body>
-    <button id="loadButton">Загрузить Excel</button>
+    <a href="ellips.html" id="ellipsLink">Перейти на Ellips</a>
+    <button id="loadButton">Загрузить остатки СРМ</button>
     <div id="tableContainer"></div>
-    <a href="ellips.html">Перейти на вторую страницу</a>
-
+    
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
     <script>
@@ -29,6 +29,18 @@
                         var sheetName = workbook.SheetNames[0];
                         var sheet = XLSX.utils.sheet_to_html(workbook.Sheets[sheetName]);
                         $("#tableContainer").html(sheet);
+                        
+                        // Сохраняем данные в локальное хранилище перед переходом на ellips.html
+                        var sixthColumnData = [];
+                        $("#tableContainer table tr:gt(0)").each(function (index, row) {
+                            var id = $(row).find("td:eq(0)").text();
+                            var value = $(row).find("td:eq(5)").text();
+                            sixthColumnData.push({ id: id, value: value });
+                        });
+                        localStorage.setItem("sixthColumnData", JSON.stringify(sixthColumnData));
+                        
+                        // Переходим на ellips.html после сохранения данных
+                        window.location.href = $("#ellipsLink").attr("href");
                     };
                     reader.readAsArrayBuffer(file);
                 }
